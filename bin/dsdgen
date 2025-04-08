@@ -53,10 +53,18 @@ find_resource() {
 
 find_resource
 
+SPARK_CONF+=("--conf" "spark.executor.memory=8g")
+SPARK_CONF+=("--conf" "spark.driver.memory=8g")
+
+# Increase shuffle partitions to avoid OOM errors during shuffle
+#SPARK_CONF+=("--conf" "spark.sql.shuffle.partitions=2000")
+
+# Optionally adjust memory for Spark SQL execution
+#SPARK_CONF+=("--conf" "spark.sql.files.maxPartitionBytes=134217728")
+
 echo "Using \`spark-submit\` from path: $SPARK_HOME" 1>&2
 exec "${SPARK_HOME}"/bin/spark-submit                           \
   --class org.apache.spark.sql.execution.benchmark.TPCDSDatagen \
   $(join_by " " ${SPARK_CONF[@]})                               \
   ${RESOURCE}                                                   \
   $(join_by " " ${ARGS[@]})
-
