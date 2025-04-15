@@ -32,7 +32,8 @@
  * 
  * Contributors:
  * Gradient Systems
- */ 
+ */
+#include "r_params.h"
 #include "config.h"
 #include "porting.h"
 #include "decimal.h"
